@@ -1,17 +1,29 @@
 @inherits LayoutComponentBase
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
-    <div class="main">
-        <div class="top-row px-4">
-            <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
-        </div>
-
-        <div class="content px-4">
-            @Body
-        </div>
-    </div>
-</div>
+<MatAppBarContainer>
+    <MatAppBar Fixed="true">
+        <MatAppBarRow>
+            <MatAppBarSection>
+                <MatIconButton Icon="menu" @onclick="@SideBarToggle"></MatIconButton>
+                <MatAppBarTitle>Inventory</MatAppBarTitle>
+            </MatAppBarSection>
+        </MatAppBarRow>
+    </MatAppBar>
+    <MatAppBarContent>
+        <MatDrawerContainer>
+            <MatDrawer @bind-Opened="@_menuOpen" Mode="@MatDrawerMode.Modal">
+                <NavMenu />
+            </MatDrawer>
+            <MatDrawerContent>
+                @Body
+            </MatDrawerContent>
+        </MatDrawerContainer>
+    </MatAppBarContent>
+</MatAppBarContainer>
+                
+@code{
+    private bool _menuOpen;
+    private void SideBarToggle(){
+        _menuOpen = !_menuOpen;
+    }
+}
