@@ -1,0 +1,39 @@
+@using Database
+
+<MatDialogTitle>Edit Item</MatDialogTitle>
+<MatDialogContent>
+    <p><MatTextField @bind-Value="@Item.Room" Label="Room"></MatTextField></p>
+    <p><MatTextField @bind-Value="@Item.Section" Label="Section"></MatTextField></p>
+    <p><MatTextField @bind-Value="@Item.Subsection" Label="Subsection"></MatTextField></p>
+    <p><MatTextField @bind-Value="@Item.Description" Label="Description"></MatTextField></p>
+    <p><MatTextField @bind-Value="@Item.Category" Label="Category"></MatTextField></p>
+    <p><MatTextField @bind-Value="@Item.Subcategory" Label="Subcategory"></MatTextField></p>
+    <p><MatTextField @bind-Value="@Item.Quantity" Label="Quantity"></MatTextField></p>
+    <p><MatTextField @bind-Value="@Item.Condition" Label="Condition"></MatTextField></p>
+</MatDialogContent>
+<MatDialogActions>
+    <MatButton OnClick="@Cancel">Cancel</MatButton>
+    <MatButton OnClick="@Save">Save</MatButton>
+</MatDialogActions>
+
+
+@code {
+
+    [Parameter]
+    public Item Item { get; set; }
+
+    [CascadingParameter]
+    public MatDialogReference DialogReference { get; set; }
+    
+
+    private void Cancel() {
+        //todo
+        DialogReference.Close(null);
+    }
+
+    private void Save() {
+        //todo
+        Console.WriteLine(Item);
+        DialogReference.Close(null);
+    }
+}

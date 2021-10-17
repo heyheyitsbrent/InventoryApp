@@ -1,55 +1,120 @@
 ﻿@page "/fetchdata"
-@inject HttpClient Http
+@using InventoryApp.Database
+@inject HttpClient client
+@inject IMatDialogService MatDialogService
 
-<h1>Weather forecast</h1>
+    <MatH4>ALL THE THINGS!!</MatH4>
 
-<p>This component demonstrates fetching data from the server.</p>
-
-@if (forecasts == null)
+    <MatPaper Elevation="2">
+@if (items == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var forecast in forecasts)
-            {
-                <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <MatTable Items="@sortedItems" class="mat-elevation-z5 data-table"
+        AllowSelection="true" OnRowDbClick="@(row => OpenEditor((Item)row))"
+        ShowPaging="true" PageSize="10"
+        UseSortHeaderRow="true">
+        <MatTableHeader>
+            <MatSortHeaderRow SortChanged="@SortItems">
+                <MatSortHeader class="data-table-room" SortId="@nameof(Item.Room)">Room</MatSortHeader>
+                <MatSortHeader class="data-table-section" SortId="@nameof(Item.Section)">Section</MatSortHeader>
+                <MatSortHeader class="data-table-subsection" SortId="@nameof(Item.Subsection)">Subsection</MatSortHeader>
+                <MatSortHeader class="data-table-description" SortId="@nameof(Item.Description)">Description</MatSortHeader>
+                <MatSortHeader class="data-table-category" SortId="@nameof(Item.Category)">Category</MatSortHeader>
+                <MatSortHeader class="data-table-subcategory" SortId="@nameof(Item.Subcategory)">Subcategory</MatSortHeader>
+                <MatSortHeader class="data-table-quantity" SortId="@nameof(Item.Quantity)">Quantity</MatSortHeader>
+                <MatSortHeader class="data-table-condition" SortId="@nameof(Item.Condition)">Condition</MatSortHeader>
+            </MatSortHeaderRow>
+        </MatTableHeader>
+        <MatTableRow>
+            <td class="data-table-room">@context.Room</td>
+            <td class="data-table-section">@context.Section</td>
+            <td class="data-table-subsection">@context.Subsection</td>
+            <td class="data-table-description">@context.Description</td>
+            <td class="data-table-category">@context.Category</td>
+            <td class="data-table-subcategory">@context.Subcategory</td>
+            <td class="data-table-quantity">@context.Quantity</td>
+            <td class="data-table-condition">@context.Condition</td>
+        </MatTableRow>
+    </MatTable>
 }
+    </MatPaper>
+    <MatFAB class="add-fab" Icon="add" OnClick="@(_ => OpenEditor())"></MatFAB>
 
 @code {
-    private WeatherForecast[] forecasts;
+    private EditItemDialog editItemDialog;
+    private IEnumerable<Item> items;
+    private Item[] sortedItems = null;
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
+        items = await client.GetFromJsonAsync<Item[]>("https://heyheyitsbrent-inventory-api.azurewebsites.net/api/getInventory");
+        SortItems(null);
+        
     }
 
-    public class WeatherForecast
+    private async Task OpenEditor(Item item = null)
     {
-        public DateTime Date { get; set; }
+        if (item is null){
+            item = new Item(){Description ="Blah"};
+        }
+        var opts = new MatDialogOptions
+        {
+            Attributes = new Dictionary<string, object>
+            {
+                {"Item", item}    
+            }
+        };
+        await MatDialogService.OpenAsync(typeof(EditItemDialog), opts);
+    }
 
-        public int TemperatureC { get; set; }
-
-        public string Summary { get; set; }
-
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    private void SortItems(MatSortChangedEvent eventArg)
+    {
+        if (sortedItems is null){
+            sortedItems = items.ToArray();
+        }
+        if (eventArg?.Direction != MatSortDirection.None && 
+            !string.IsNullOrEmpty(eventArg?.SortId))
+        {
+            Comparison<Item> comp = null;
+            switch(eventArg.SortId)
+            {
+                case nameof(Item.Room):
+                    comp = (s1, s2) => string.Compare(s1.Room, s2.Room, true);
+                    break;
+                case nameof(Item.Section):
+                    comp = (s1, s2) => string.Compare(s1.Section, s2.Section, true);
+                    break;
+                case nameof(Item.Subsection):
+                    comp = (s1, s2) => string.Compare(s1.Subsection, s2.Subsection, true);
+                    break;
+                case nameof(Item.Description):
+                    comp = (s1, s2) => string.Compare(s1.Description, s2.Description, true);
+                    break;
+                case nameof(Item.Category):
+                    comp = (s1, s2) => string.Compare(s1.Category, s2.Category, true);
+                    break;
+                case nameof(Item.Subcategory):
+                    comp = (s1, s2) => string.Compare(s1.Subcategory, s2.Subcategory, true);
+                    break;
+                case nameof(Item.Quantity):
+                    comp = (s1, s2) => s1.Quantity.GetValueOrDefault().CompareTo(s2.Quantity);
+                    break;
+                case nameof(Item.Condition):
+                    comp = (s1, s2) => string.Compare(s1.Condition, s2.Condition, true);
+                    break;
+                default:
+                    return;
+            }
+            if (eventArg.Direction == MatSortDirection.Desc){
+                Array.Sort(sortedItems, (s1,s2) => -1 * comp(s1,s2));
+            }
+            else
+            {
+                Array.Sort(sortedItems, comp);
+            }
+        }
     }
 }

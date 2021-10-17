@@ -48,3 +48,91 @@ a, .btn-link {
         right: 0.75rem;
         top: 0.5rem;
     }
+
+
+    /* ISOLATION IS F'D */
+    .data-table {
+        table-layout: fixed;
+        width: 100%;
+    }
+    /* room */
+    th.data-table-room {
+        width: 10%;
+    }
+    td.data-table-room {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    /* section */
+    th.data-table-section {
+        width: 10%;
+    }
+    td.data-table-section {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    /* subsection */
+    th.data-table-subsection {
+        width: 10%;
+    }
+    td.data-table-subsection {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    /* description */
+    th.data-table-description {
+        width: 30%;
+    }
+    td.data-table-description {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    /* category */
+    th.data-table-category {
+        width: 10%;
+    }
+    td.data-table-category {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    /* subcategory */
+    th.data-table-subcategory {
+        width: 10%;
+    }
+    td.data-table-subcategory {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    /* quantity */
+    th.data-table-quantity {
+        width: 10%;
+    }
+    td.data-table-quantity {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    /* condition */
+    th.data-table-condition {
+        width: 10%;
+    }
+    td.data-table-condition {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .mdc-paginator-container {
+        justify-content: flex-start;
+    }
+    .add-fab {
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+    }

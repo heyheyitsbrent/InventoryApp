@@ -1,0 +1,76 @@
+/* ::deep .data-table {
+    table-layout: fixed;
+    width: 100%;
+}
+/* room */
+::deep .data-table-room th {
+    width: 12%;
+}
+::deep .data-table-room td {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+/* section */
+::deep .data-table-section th {
+    width: 12%;
+}
+::deep .data-table-section td {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+/* subsection */
+::deep .data-table-subsection th {
+    width: 12%;
+}
+::deep .data-table-subsection td {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+/* description */
+::deep .data-table-description th {
+    width: 12%;
+}
+::deep .data-table-description td {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+/* category */
+::deep .data-table-category th {
+    width: 12%;
+}
+::deep .data-table-category td {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+/* subcategory */
+::deep .data-table-subcategory th {
+    width: 12%;
+}
+::deep .data-table-subcategory td {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+/* quantity */
+::deep .data-table-quantity th {
+    width: 12%;
+}
+::deep .data-table-quantity td {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+/* condition */
+::deep .data-table-condition th {
+    width: 12%;
+}
+::deep .data-table-condition td {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
